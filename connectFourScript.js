@@ -1,3 +1,5 @@
+$("td").click(getClickPosition);
+
 function getClickPosition() {
   var $this = $(this);
   var col = $this.index();
@@ -5,4 +7,18 @@ function getClickPosition() {
   console.log([col,row].join(','));
 }
 
-$("td").click(getClickPosition);
+
+
+function colorCellbyPlayer(player){
+  if (player == "user") {
+
+  } else if (player == "computer") {
+
+  }
+}
+
+
+
+function findNextAvailablePosition(clickedPosition){
+
+}
