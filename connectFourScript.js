@@ -4,7 +4,9 @@ function getClickPosition() {
   var $this = $(this);
   var col = $this.index();
   var row = $this.closest('tr').index();
+
   console.log([col,row].join(','));
+
 }
 
 
@@ -19,6 +21,24 @@ function colorCellbyPlayer(player){
 
 
 
-function findNextAvailablePosition(clickedPosition){
+function checkBottom(clickedPosition){
+
+}
+
+
+
+function checkHorizontalWin(){
+
+}
+
+
+
+function checkVerticalWin(){
+
+}
+
+
+
+function checkDiagonalWin(){
 
 }
