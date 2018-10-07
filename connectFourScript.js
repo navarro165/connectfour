@@ -5,6 +5,7 @@ var computer = "computer";
 var computerColor = 'rgb(175, 29, 3)';
 
 var board = $('table tr');
+var defaultCellColor = 'rgb(240, 240, 240)';
 
 
 
@@ -48,10 +49,23 @@ function getCurrentColor(colPosition,rowPosition){
 
 
 
-function checkBottom(clickedPosition){
-
+function checkBottom(colPosition){
+  if (colPosition!=null) {
+    for (var row = 5; row >= 0; row--) {
+      cellColor = getCurrentColor(colPosition,row);
+      if (cellColor === defaultCellColor) {
+        return row;
+      }
+    }
+  }
 }
 
+
+//check if current position is bottom, if not make it seem like falling to checkBottom
+//reanalyze other functions to improve logic
+function chipFallOnClick(){
+
+}
 
 
 function checkHorizontalWin(){
@@ -67,5 +81,10 @@ function checkVerticalWin(){
 
 
 function checkDiagonalWin(){
+
+}
+
+
+function checkCellsEqual(){
 
 }
