@@ -1,3 +1,6 @@
+(function(){
+
+
 let user = "user";
 let userColor = 'rgb(29, 3, 175)';
 
@@ -8,9 +11,18 @@ let board = $('table tr');
 let defaultCellColor = 'rgb(240, 240, 240)';
 let fallingChipDelay = 125;
 
-
-
 $("td").click(userFillPosition);
+
+
+
+//make sure ALL FUNCTIONS WORK BY TAKING TURNS
+//FOR EXAMLPE ON THE FUNCTION BELOW, WHERE IT SAYS USERS,
+//SHOULD BE A GENERTIC VARIABLE THAT ALTERNATES BETWEEN
+//PLAYER ONE AND TWO.
+//THEN CHANGE MODIFY THE NAMES OF USER AND COMPUTER TO REFLECT PLAYER ONE AND TWO
+
+
+
 
 function userFillPosition() {
   var $this = $(this);
@@ -18,7 +30,6 @@ function userFillPosition() {
   var colPosition = position[0];
   var rowPosition = position[1];
   var bottomChip = checkBottom(colPosition);
-
   chipFallOnClick(colPosition,rowPosition,bottomChip,"user");
 }
 
@@ -44,16 +55,25 @@ function getCurrentColor(colPosition,rowPosition){
 }
 
 function chipFallOnClick(colPosition,rowPosition,bottomChip,player){
-  var timeDelay = 0;
   if (player == "user") {
-      for (let rowFallingChip = rowPosition; rowFallingChip <= bottomChip; rowFallingChip++) {
-          setTimeout( () => { colorCellbyPlayer(colPosition,rowFallingChip,player); }, timeDelay);
-          setTimeout( () => { uncolorCellbyPlayer(colPosition,rowFallingChip,player); }, fallingChipDelay + timeDelay);
-          timeDelay = timeDelay + fallingChipDelay;
-      }
+      chipFallByUser(colPosition,rowPosition,bottomChip,player);
   } else if (player == "computer") {
-
+      chipFallByUser(colPosition,rowPosition,bottomChip,player);
   }
+}
+
+function chipFallByUser(colPosition,rowPosition,bottomChip,player){
+  var timeDelay = 0;
+  for (let rowFallingChip = rowPosition; rowFallingChip <= bottomChip; rowFallingChip++) {
+    if (rowFallingChip != bottomChip) {
+        setTimeout( () => { colorCellbyPlayer(colPosition,rowFallingChip,player); }, timeDelay);
+    } else {
+        setTimeout( () => { colorCellbyPlayer(colPosition,rowFallingChip,player); }, timeDelay);
+        break;
+    }
+    setTimeout( () => { uncolorCellbyPlayer(colPosition,rowFallingChip,player); }, fallingChipDelay + timeDelay);
+    timeDelay = timeDelay + fallingChipDelay;
+    }
 }
 
 function colorCellbyPlayer(colPosition,rowPosition,player){
@@ -115,3 +135,6 @@ function checkDiagonalWin(){
 function checkCellsEqual(){
 
 }
+
+
+})();
