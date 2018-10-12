@@ -1,4 +1,4 @@
-(function(){
+// (function(){
 
 
 let user = "user";
@@ -10,6 +10,7 @@ let computerColor = 'rgb(175, 29, 3)';
 let board = $('table tr');
 let defaultCellColor = 'rgb(240, 240, 240)';
 let fallingChipDelay = 125;
+let chipFalling = false;
 
 $("td").click(userFillPosition);
 
@@ -22,15 +23,15 @@ $("td").click(userFillPosition);
 //THEN CHANGE MODIFY THE NAMES OF USER AND COMPUTER TO REFLECT PLAYER ONE AND TWO
 
 
-
-
 function userFillPosition() {
   var $this = $(this);
   var position = getClickPosition($this);
   var colPosition = position[0];
   var rowPosition = position[1];
   var bottomChip = checkBottom(colPosition);
-  chipFallOnClick(colPosition,rowPosition,bottomChip,"user");
+  if (chipFalling === false) {
+      chipFallOnClick(colPosition,rowPosition,bottomChip,"user");
+  }
 }
 
 function getClickPosition($this) {
@@ -55,6 +56,7 @@ function getCurrentColor(colPosition,rowPosition){
 }
 
 function chipFallOnClick(colPosition,rowPosition,bottomChip,player){
+  chipFalling = true;
   if (player == "user") {
       chipFallByUser(colPosition,rowPosition,bottomChip,player);
   } else if (player == "computer") {
@@ -68,7 +70,10 @@ function chipFallByUser(colPosition,rowPosition,bottomChip,player){
     if (rowFallingChip != bottomChip) {
         setTimeout( () => { colorCellbyPlayer(colPosition,rowFallingChip,player); }, timeDelay);
     } else {
-        setTimeout( () => { colorCellbyPlayer(colPosition,rowFallingChip,player); }, timeDelay);
+        setTimeout( () => {
+          colorCellbyPlayer(colPosition,rowFallingChip,player);
+          chipFalling = false;
+        }, timeDelay);
         break;
     }
     setTimeout( () => { uncolorCellbyPlayer(colPosition,rowFallingChip,player); }, fallingChipDelay + timeDelay);
@@ -137,4 +142,4 @@ function checkCellsEqual(){
 }
 
 
-})();
+// })();
