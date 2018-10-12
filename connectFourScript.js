@@ -1,27 +1,19 @@
 // (function(){
 
 
-let user = "user";
-let userColor = 'rgb(29, 3, 175)';
+let playerOne = "playerOne";
+let playerOneColor = 'rgb(29, 3, 175)';
 
-let computer = "computer";
-let computerColor = 'rgb(175, 29, 3)';
+let playerTwo = "playerTwo";
+let playerTwoColor = 'rgb(175, 29, 3)';
 
 let board = $('table tr');
 let defaultCellColor = 'rgb(240, 240, 240)';
 let fallingChipDelay = 125;
 let chipFalling = false;
 
+
 $("td").click(userFillPosition);
-
-
-
-//make sure ALL FUNCTIONS WORK BY TAKING TURNS
-//FOR EXAMLPE ON THE FUNCTION BELOW, WHERE IT SAYS USERS,
-//SHOULD BE A GENERTIC VARIABLE THAT ALTERNATES BETWEEN
-//PLAYER ONE AND TWO.
-//THEN CHANGE MODIFY THE NAMES OF USER AND COMPUTER TO REFLECT PLAYER ONE AND TWO
-
 
 function userFillPosition() {
   var $this = $(this);
@@ -30,7 +22,7 @@ function userFillPosition() {
   var rowPosition = position[1];
   var bottomChip = checkBottom(colPosition);
   if (chipFalling === false) {
-      chipFallOnClick(colPosition,rowPosition,bottomChip,"user");
+      chipFallOnClick(colPosition,rowPosition,bottomChip,"playerOne");
   }
 }
 
@@ -57,9 +49,9 @@ function getCurrentColor(colPosition,rowPosition){
 
 function chipFallOnClick(colPosition,rowPosition,bottomChip,player){
   chipFalling = true;
-  if (player == "user") {
+  if (player == "playerOne") {
       chipFallByUser(colPosition,rowPosition,bottomChip,player);
-  } else if (player == "computer") {
+  } else if (player == "playerTwo") {
       chipFallByUser(colPosition,rowPosition,bottomChip,player);
   }
 }
@@ -82,17 +74,17 @@ function chipFallByUser(colPosition,rowPosition,bottomChip,player){
 }
 
 function colorCellbyPlayer(colPosition,rowPosition,player){
-  if (player == "user") {
-      return board.eq(rowPosition).find('td').eq(colPosition).find('button').css('background-color',userColor);
-  } else if (player == "computer") {
-      return board.eq(rowPosition).find('td').eq(colPosition).find('button').css('background-color',computerColor);
+  if (player == "playerOne") {
+      return board.eq(rowPosition).find('td').eq(colPosition).find('button').css('background-color',playerOneColor);
+  } else if (player == "playerTwo") {
+      return board.eq(rowPosition).find('td').eq(colPosition).find('button').css('background-color',playerTwoColor);
   }
 }
 
 function uncolorCellbyPlayer(colPosition,rowPosition,player){
-  if (player == "user") {
+  if (player == "playerOne") {
       return board.eq(rowPosition).find('td').eq(colPosition).find('button').css('background-color',defaultCellColor);
-  } else if (player == "computer") {
+  } else if (player == "playerTwo") {
       return board.eq(rowPosition).find('td').eq(colPosition).find('button').css('background-color',defaultCellColor);
   }
 }
@@ -104,10 +96,10 @@ function uncolorCellbyPlayer(colPosition,rowPosition,player){
 
 function getCurrentCellPlayer(colPosition,rowPosition){
   var currentColor = getCurrentColor(colPosition,rowPosition);
-  if (currentColor == userColor) {
-      return user;
-  } else if (currentColor == computerColor) {
-      return computer;
+  if (currentColor == playerOneColor) {
+      return playerOne;
+  } else if (currentColor == playerTwoColor) {
+      return playerTwo;
   } else {
       return null;
   }
