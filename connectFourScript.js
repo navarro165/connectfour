@@ -11,6 +11,7 @@ let board = $('table tr');
 let defaultCellColor = 'rgb(240, 240, 240)';
 let fallingChipDelay = 125;
 let chipFalling = false;
+let whosTurnisIt = playerOne;
 
 
 $("td").click(userFillPosition);
@@ -21,8 +22,8 @@ function userFillPosition() {
   var colPosition = position[0];
   var rowPosition = position[1];
   var bottomChip = checkBottom(colPosition);
-  if (chipFalling === false) {
-      chipFallOnClick(colPosition,rowPosition,bottomChip,"playerOne");
+  if (chipFalling === false && getCurrentColor(colPosition,rowPosition) === defaultCellColor) {
+      chipFallOnClick(colPosition,rowPosition,bottomChip,whosTurnisIt);
   }
 }
 
@@ -65,6 +66,11 @@ function chipFallByUser(colPosition,rowPosition,bottomChip,player){
         setTimeout( () => {
           colorCellbyPlayer(colPosition,rowFallingChip,player);
           chipFalling = false;
+          if (whosTurnisIt == playerOne) {
+              whosTurnisIt = playerTwo;
+          } else {
+              whosTurnisIt = playerOne;
+          }
         }, timeDelay);
         break;
     }
