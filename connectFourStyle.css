@@ -9,3 +9,21 @@
 .board{
   margin-top: 15px;
 }
+
+.instructions{
+  margin-bottom: 15px;
+}
+
+.scoreWraper{
+  display: flex;
+  justify-content: center;
+}
+
+.scoreLeft{
+  float: left;
+  margin-right: 50px;
+}
+
+.scoreRight{
+  float: left;
+}

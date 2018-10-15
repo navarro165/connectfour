@@ -10,8 +10,14 @@
   <body>
 
     <div class="container" align="center">
-      <h1 class="display-4">Welcome To The Interactive Connect Four</h1>
-      <h4>Connect 4 pieces to win!</h4>
+      <h1 class="display-4">Welcome To The Connect Four</h1>
+
+      <div class="instructions"><h4 id="instructions">Connect 4 pieces to win!</h4></div>
+      <div class="scoreWraper">
+        <div class="scoreLeft"><button id="playerOne" type="button" class="btn btn-light"></button></div>
+        <div class="scoreRight"><button id="playerTwo" type="button" class="btn btn-light"></button></div>
+      </div>
+
       <table class="board">
         <tr>
           <td><button type="button"></button></td>

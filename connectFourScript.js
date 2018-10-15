@@ -1,5 +1,10 @@
 // (function(){
 
+let playerOneName = prompt('Player One: Please enter your name, you will be blue.');
+let playerTwoName = prompt('Player Two: Please enter your name, you will be red.');
+$("#playerOne").text(playerOneName +'score'); //findway to get strings working here
+$("#playerTwo").text(playerTwoName +'score');
+
 
 let playerOne = "playerOne";
 let playerOneColor = 'rgb(29, 3, 175)';
