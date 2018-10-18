@@ -26,4 +26,12 @@
 
 .scoreRight{
   float: left;
+  margin-right: 50px;
+}
+
+.turnTag{
+  width: auto;
+  margin: 8px;
+  font-weight: bold;
+  font-family: Helvetica;
 }
