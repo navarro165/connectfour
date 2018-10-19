@@ -1,4 +1,4 @@
-// (function(){
+(function(){
 let playerOne = "playerOne";
 let playerOneColor = 'rgb(29, 3, 175)';
 let playerOneScore = 0;
@@ -14,6 +14,7 @@ let defaultCellColor = 'rgb(240, 240, 240)';
 let fallingChipDelay = 125;
 let chipFalling = false;
 let whosTurnisIt = playerOne;
+let endGame = false;
 
 $("#playerOne").text(`${playerOneName}'s score is ${playerOneScore}`);
 $("#playerTwo").text(`${playerTwoName}'s score is ${playerTwoScore}`);
@@ -22,13 +23,19 @@ $(".turnTag").text(`Your turn ${playerOneName}!`);
 //the game starts with player 1 clicking on any of the cells
 //then each click is alternated between players 1 and 2
 $("td").on('click',function(){
+  if (!endGame) {
     var $this = $(this);
     var position = getClickPosition($this);
     var colPosition = position[0];
     var rowPosition = position[1];
     var bottomChip = checkBottom(colPosition);
     displayWhosTurnisIt(whosTurnisIt);
-    chipFallOnClick(colPosition,rowPosition,bottomChip,whosTurnisIt); //once chip falls, winner would be determined and score updated
+    //for the next function:
+    //once chip falls, winner would be determined and score updated
+    //the user will be asked if a new game should start
+    chipFallOnClick(colPosition,rowPosition,bottomChip,whosTurnisIt);
+    resetTurnTag();
+  }
 });
 
 function displayWhosTurnisIt(whosTurnisIt){
@@ -65,11 +72,7 @@ function getCurrentColor(colPosition,rowPosition){
 function chipFallOnClick(colPosition,rowPosition,bottomChip,player){
   if (chipFalling === false && getCurrentColor(colPosition,rowPosition) === defaultCellColor) {
     chipFalling = true;
-    if (player == "playerOne") {
-        chipFallByUserAndCheckWin(colPosition,rowPosition,bottomChip,player);
-    } else if (player == "playerTwo") {
-        chipFallByUserAndCheckWin(colPosition,rowPosition,bottomChip,player);
-    }
+    chipFallByUserAndCheckWin(colPosition,rowPosition,bottomChip,player);
   }
 }
 
@@ -105,11 +108,7 @@ function colorCellbyPlayer(colPosition,rowPosition,player){
 }
 
 function uncolorCellbyPlayer(colPosition,rowPosition,player){
-  if (player == "playerOne") {
-      return board.eq(rowPosition).find('td').eq(colPosition).find('button').css('background-color',defaultCellColor);
-  } else if (player == "playerTwo") {
-      return board.eq(rowPosition).find('td').eq(colPosition).find('button').css('background-color',defaultCellColor);
-  }
+  return board.eq(rowPosition).find('td').eq(colPosition).find('button').css('background-color',defaultCellColor);
 }
 
 function checkForWinnerAndUpdateScore(){
@@ -117,12 +116,11 @@ function checkForWinnerAndUpdateScore(){
   var vWin = checkVerticalWin();
   var dWin = checkDiagonalWin();
   if (hWin !== undefined) {
-      console.log("w");
-      return hWin;
+      updateScoresAndStartNewGame(hWin);
   } else if (vWin !== undefined) {
-      return vWin;
+      updateScoresAndStartNewGame(vWin);
   } else if (dWin !== undefined) {
-      return dWin;
+      updateScoresAndStartNewGame(dWin);
   }
 }
 
@@ -183,5 +181,47 @@ function getCurrentCellPlayer(colPosition,rowPosition){
   }
 }
 
+function updateScoresAndStartNewGame(winner){
+  if (winner === playerOne) {
+      playerOneScore++;
+      $("#playerOne").text(`${playerOneName}'s score is ${playerOneScore}`);
+      $(".turnTag").text(`${playerOneName} wins!`);
+      askUserForNewGame(playerOneName);
+  } else if (winner === playerTwo) {
+      playerTwoScore++;
+      $("#playerTwo").text(`${playerTwoName}'s score is ${playerTwoScore}`);
+      $(".turnTag").text(`${playerTwoName} wins!`);
+      askUserForNewGame(playerTwoName);
+  }
+}
 
-// })();
+function askUserForNewGame(winner){
+  var displayMessage = `${winner} wins!\n\nScore: ${playerOneName}: ${playerOneScore} - ${playerTwoName}: ${playerTwoScore}\n\nStart new game?\n`
+  if (confirm(displayMessage)) {
+      clearBoard();
+      if (whosTurnisIt == playerTwo) { // if this condition is true, then player one will go first on the next game
+          $(".turnTag").text(`Your turn ${playerOneName}!`); //to reset turn tag to display
+          alert(`${playerOneName} you go first!`)
+      } else if (whosTurnisIt == playerOne) { // if this condition is true, then player two will go first on the next game
+          $(".turnTag").text(`Your turn ${playerTwoName}!`); //to reset turn tag to display
+          alert(`${playerTwoName} you go first!`)
+      }
+
+  } else {
+      endGame = true;
+  }
+}
+
+function clearBoard(){
+  for (var col = 0; col < 7; col++) {
+    for (var row = 0; row < 6; row++) {
+      uncolorCellbyPlayer(col, row)
+    }
+  }
+}
+
+function resetTurnTag(){
+  displayWhosTurnisIt(whosTurnisIt);
+}
+
+})();
